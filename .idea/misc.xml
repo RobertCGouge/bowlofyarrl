@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RsExternalLinterProjectSettings">
+    <option name="channel" value="stable" />
+    <option name="tool" value="Clippy" />
+  </component>
+  <component name="RustfmtProjectSettings">
+    <option name="channel" value="stable" />
+    <option name="useRustfmt" value="true" />
+  </component>
+</project>

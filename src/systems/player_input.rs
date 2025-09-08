@@ -22,12 +22,11 @@ pub fn player_input(
             VirtualKeyCode::Down => Point::new(0, 1),
             _ => Point::new(0, 0),
         };
-
         let (player_entity, destination) = players
             .iter(ecs)
             .find_map(|(entity, pos)| Some((*entity, *pos + delta)))
             .unwrap();
-
+        println!("Player Destination {:?})", destination);
         let mut did_something = false;
         if delta.x != 0 || delta.y != 0 {
             let mut hit_something = false;

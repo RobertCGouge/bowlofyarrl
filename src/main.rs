@@ -92,11 +92,12 @@ impl State {
             let mut rng = RandomNumberGenerator::new();
             let map_builder = MapBuilder::new(&mut rng);
             spawn_player(&mut self.ecs, map_builder.player_start);
+            spawn_bowl_of_yarrl(&mut self.ecs, map_builder.bowl_start);
             map_builder
                 .rooms
                 .iter()
                 .skip(1)
-                .map(|r| r.center())
+                .map(Rect::center)
                 .for_each(|pos| spawn_monster(&mut self.ecs, &mut rng, pos));
             self.resources.insert(map_builder.map);
             self.resources.insert(Camera::new(map_builder.player_start));

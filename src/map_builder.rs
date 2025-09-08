@@ -1,10 +1,12 @@
 use crate::prelude::*;
 const NUM_ROOMS: usize = 20;
+const UNREACHABLE: &f32 = &f32::MAX;
 
 pub struct MapBuilder {
     pub map: Map,
     pub rooms: Vec<Rect>,
     pub player_start: Point,
+    pub bowl_start: Point,
 }
 
 impl MapBuilder {
@@ -13,11 +15,32 @@ impl MapBuilder {
             map: Map::new(),
             rooms: Vec::new(),
             player_start: Point::zero(),
+            bowl_start: Point::zero(),
         };
         mb.fill(TileType::Wall);
         mb.build_random_rooms(rng);
         mb.build_corridors(rng);
         mb.player_start = mb.rooms[0].center(); // (1)
+
+        let dijkstra_map = DijkstraMap::new(
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            &[mb.map.point2d_to_index(mb.player_start)],
+            &mb.map,
+            1024.0,
+        );
+        // (1)
+        mb.bowl_start = mb.map.index_to_point2d// (2)
+        (
+            dijkstra_map.map
+                .iter()
+                .enumerate()// (3)
+                .filter(|(_,dist)| *dist < UNREACHABLE)// (4)
+                .max_by(|a,b| a.1.partial_cmp(b.1).unwrap())// (5)
+                .unwrap().0// (6)
+        );
+        println!("Bowl start: {:?}", mb.bowl_start);
+
         mb
     }
 

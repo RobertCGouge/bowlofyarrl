@@ -44,3 +44,16 @@ pub fn spawn_monster(ecs: &mut World, rng: &mut RandomNumberGenerator, pos: Poin
         Name(name),
     ));
 }
+
+pub fn spawn_bowl_of_yarrl(ecs: &mut World, pos: Point) {
+    ecs.push((
+        Item,
+        BowlOfYarrl,
+        pos,
+        Render {
+            color: ColorPair::new(WHITE, BLACK),
+            glyph: to_cp437('/'),
+        },
+        Name("Bowl of Yarrl".to_string()),
+    ));
+}
